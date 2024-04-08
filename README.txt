@@ -1,6 +1,8 @@
 Trabalho de Redes Cliente servidor linux
 https://realpython.com/python-sockets/#tcp-sockets
-
+https://stackoverflow.com/questions/72426657/is-there-a-way-to-make-2-clients-communicate-in-python
+https://docs.python.org/3/library/socket.html
+https://www.datacamp.com/tutorial/a-complete-guide-to-socket-programming-in-python
 -Terei um client que ira permitir conversa entre dois usuarios
     *Ira usar opções para definir quem será o usuario alvo da conversa
     *Permite o envio de  arquivos
