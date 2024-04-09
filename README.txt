@@ -1,4 +1,5 @@
 Trabalho de Redes Cliente servidor linux
+https://www.youtube.com/watch?v=nmzzeAvQHp8
 https://realpython.com/python-sockets/#tcp-sockets
 https://stackoverflow.com/questions/72426657/is-there-a-way-to-make-2-clients-communicate-in-python
 https://docs.python.org/3/library/socket.html

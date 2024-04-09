@@ -15,7 +15,7 @@ while True:
     sentence = connectionSocket.recv(1024).decode()
     #Recebe novo endereço
     clientData = sentence.split('|')
-    print("",clientData)
+    print("",connectionSocket)
     #Passa pra maiscula
     capitalizedSentence = sentence.upper()
     #envia de volta os dados pro client
