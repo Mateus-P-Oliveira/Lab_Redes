@@ -4,13 +4,17 @@ https://realpython.com/python-sockets/#tcp-sockets
 https://stackoverflow.com/questions/72426657/is-there-a-way-to-make-2-clients-communicate-in-python
 https://docs.python.org/3/library/socket.html
 https://www.datacamp.com/tutorial/a-complete-guide-to-socket-programming-in-python
+https://www.geeksforgeeks.org/how-to-create-a-multi-chat-server-using-udp/
+https://github.com/ayan2809/Multi-Client-Socket-using-UDP
+
+
 -Terei um client que ira permitir conversa entre dois usuarios
     *Ira usar opções para definir quem será o usuario alvo da conversa
     *Permite o envio de  arquivos
 
--Terei um servidor que permite varios usuarios
+-Terei um servidor que permite varios usuarios Ok
     *Irei permitir adicionar mais usuarios
-    *Tera uma serie de comandos 
+    *Tera uma serie de comandos Ok
     *Quando inicializa ele espera receber um usuario
 
 -Codigo de mensagens
