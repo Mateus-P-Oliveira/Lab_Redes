@@ -1,35 +1,29 @@
 import socket
-import time
+import threading
+import random
 
-while True: 
+client = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+client.bind(("localhost", random.randint(8000, 9000)))
 
-    msgFromClient       = input("Enter your message :")
+name = input("Nickname: ")
 
-    bytesToSend         = str.encode(msgFromClient +"1")
+def receive():
+    while True:
+        try:
+            message, _ = client.recvfrom(1024)
+            print(message.decode())
+        except:
+            pass
+        
+t = threading.Thread(target=receive)
+t.start()
 
-    serverAddressPort   = ("127.0.0.1", 20001)
+client.sendto(f"SIGNUP_TAG:{name}".encode(),("127.0.0.1",9999))
 
-    bufferSize          = 1024
-
- 
-
-# Create a UDP socket at client side
-
-    UDPClientSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
-
- 
-
-# Send to server using created UDP socket
-
-    UDPClientSocket.sendto(bytesToSend, serverAddressPort)
-
- 
-
-    msgFromServer = UDPClientSocket.recvfrom(bufferSize)
-
- 
-
-    msg = "Message from Server :{}".format(msgFromServer[0].decode())
-    #time.sleep(5)
-
-    print(msg)
+while True:
+    message = input("")
+    if message == "!q":
+        exit()
+    else:
+        client.sendto(f"{name}: {message}".encode(), ("127.0.0.1",9999))
+     

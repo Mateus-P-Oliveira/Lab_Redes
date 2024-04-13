@@ -1,67 +1,40 @@
 import socket
+import threading
+import queue
 
- 
+messages = queue.Queue()
+clients = []
 
-localIP     = "127.0.0.1"
+server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+server.bind(("127.0.0.1",9999))
 
-localPort   = 20001
+def receive():
+    while True:
+        try:
+            message, addr = server.recvfrom(1024)
+            messages.put((message,addr))
+        except:
+            pass
+        
+def broadcast():
+    while True:
+        while not messages.empty():
+            message, addr = messages.get()
+            print(message.decode())
+            if addr not in clients:
+                clients.append(addr)
+            for client in clients:
+                try:
+                    if message.decode().startswith("SIGNUP_TAG:"):
+                        name = message.decode()[message.decode().index(":")+1:]
+                        server.sendto(f"{name} joined!".encode(), client)
+                    else:
+                        server.sendto(message,client)
+                except:
+                    clients.remove(client)
+                    
+t1 = threading.Thread(target=receive)
+t2 = threading.Thread(target=broadcast)  
 
-bufferSize  = 1024
-
- 
-
-
-
- 
-
-# Create a datagram socket
-
-UDPServerSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
-#UDPServerSocket2 = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
- 
-
-# Bind to address and ip
-
-UDPServerSocket.bind((localIP, localPort))
-#UDPServerSocket2.bind((localIP, localPort))
-
- 
-
-print("UDP server up and listening")
-
- 
-
-# Listen for incoming datagrams
-
-while(True):
-
-    bytesAddressPair = UDPServerSocket.recvfrom(bufferSize)
-
-    message = bytesAddressPair[0]
-
-    address = bytesAddressPair[1]
-
-   
-
-    m=message.decode()
-
-    clientMsg = "Message from Client "+m[len(m)-1]+": "+m[0:len(m)-1]
-    clientIP  = "Client IP Address: {}".format(address)
-
- 
-    
-    print(clientMsg)
-    #print(clientIP)
-
-
-                                
-
-    msgFromServer       = input("Enter your message for client "+m[len(m)-1]+": ")
-
-    bytesToSend         = str.encode(msgFromServer)
-
-                            
-
-    # Sending a reply to client
-
-    UDPServerSocket.sendto(bytesToSend, address)
+t1.start()
+t2.start()

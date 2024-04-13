@@ -7,6 +7,7 @@ https://www.datacamp.com/tutorial/a-complete-guide-to-socket-programming-in-pyth
 https://www.geeksforgeeks.org/how-to-create-a-multi-chat-server-using-udp/
 https://github.com/ayan2809/Multi-Client-Socket-using-UDP
 https://www.scaler.com/topics/udp-server-client-implementation-in-c/
+https://www.youtube.com/watch?v=3qlhbez-RPI
 
 -Terei um client que ira permitir conversa entre dois usuarios
     *Ira usar opções para definir quem será o usuario alvo da conversa
