@@ -13,18 +13,32 @@ aliases = []
 
 
 def broadcast(message):
-    for client in clients:
+    for client in clients:       
         client.send(message)
 
 
+#Isso ira procurar na lista de endereços o cliente com mesmo ID e ira mandar para ele a mensagem 
+def privateMessage(message, clientTarget):
+    for client in clients:
+        if client == clientTarget:
+            print(client)
+            client.send(message)
+
+
 # Function to handle clients'connections
+
 
 
 def handle_client(client):
     while True:
         try:
             message = client.recv(1024)
-            broadcast(message)
+            # Segmenta a mensagem
+           # segmentMessage = message.split('|')
+           # if(segmentMessage[0] ==  "send"):
+               # privateMessage(message,segmentMessage[1])
+            #--------------------------
+            broadcast(message) #Aqui é feito o envio de broadcast
         except:
             index = clients.index(client)
             clients.remove(client)
