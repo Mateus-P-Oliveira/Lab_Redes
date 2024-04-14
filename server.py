@@ -18,12 +18,22 @@ def broadcast(message):
 
 
 #Isso ira procurar na lista de endereços o cliente com mesmo ID e ira mandar para ele a mensagem 
-def privateMessage(message, clientTarget):
-    for client in clients:
-        if client == clientTarget:
-            print(client)
-            client.send(message)
-
+def privateMessage(clientTarget):    
+    
+    for y in range(len(aliases)):   
+       # print(aliases[0])  
+        print(y)   
+        if aliases[y] == clientTarget:            
+            for client in clients: 
+                if x == y:  #Arrumar aqui
+                    print(x)
+                    print("~~~~~~~~~~")
+                    print(y)      
+                    client.send(message)
+                else:
+                    x+= 1
+           
+   
 
 # Function to handle clients'connections
 
@@ -34,12 +44,12 @@ def handle_client(client):
         try:
             message = client.recv(1024)
             print(message)
-            # Segmenta a mensagem
+            # Segmenta a mensagem---------------------
             segmentMessage = message.decode('utf-8')
             segmentMessage = segmentMessage.split("/")
             print(segmentMessage[1])
-            if(segmentMessage[1] ==  "send"):
-               privateMessage(message,segmentMessage[1])
+            if(segmentMessage[1] ==  "send"):               
+               privateMessage(segmentMessage[1])
             #--------------------------
             broadcast(message) #Aqui é feito o envio de broadcast
         except:
@@ -64,6 +74,10 @@ def receive():
         alias = client.recv(1024)
         aliases.append(alias)
         clients.append(client)
+        #--Dicionario com alias e seu respectivo client
+        
+        
+        #-------------------------------------------------
         print(f"The alias of this client is {alias}".encode("utf-8"))
         broadcast(f"{alias} has connected to the chat room".encode("utf-8"))
         client.send("you are now connected!".encode("utf-8"))
