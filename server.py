@@ -33,10 +33,13 @@ def handle_client(client):
     while True:
         try:
             message = client.recv(1024)
+            print(message)
             # Segmenta a mensagem
-           # segmentMessage = message.split('|')
-           # if(segmentMessage[0] ==  "send"):
-               # privateMessage(message,segmentMessage[1])
+            segmentMessage = message.decode('utf-8')
+            segmentMessage = segmentMessage.split("/")
+            print(segmentMessage[1])
+            if(segmentMessage[1] ==  "send"):
+               privateMessage(message,segmentMessage[1])
             #--------------------------
             broadcast(message) #Aqui é feito o envio de broadcast
         except:
