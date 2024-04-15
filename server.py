@@ -21,9 +21,15 @@ def broadcast(message):
 def privateMessage(clientTarget):    
     
     for y in range(len(aliases)):   
-       # print(aliases[0])  
-        print(y)   
-        if aliases[y] == clientTarget:            
+       
+        print("------------") 
+        print(aliases[y])
+        print(clientTarget)  
+        aliasesStrip = aliases[y].strip()
+        clientTargetStrip = clientTarget.strip()
+        print(aliasesStrip == clientTargetStrip)
+        if aliases[y] == clientTarget:         
+            print("OALALLA")   
             for client in clients: 
                 if x == y:  #Arrumar aqui
                     print(x)
@@ -49,7 +55,7 @@ def handle_client(client):
             segmentMessage = segmentMessage.split("/")
             print(segmentMessage[1])
             if(segmentMessage[1] ==  "send"):               
-               privateMessage(segmentMessage[1])
+               privateMessage(segmentMessage[2])
             #--------------------------
             broadcast(message) #Aqui é feito o envio de broadcast
         except:
