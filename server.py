@@ -18,26 +18,36 @@ def broadcast(message):
 
 
 #Isso ira procurar na lista de endereços o cliente com mesmo ID e ira mandar para ele a mensagem 
-def privateMessage(clientTarget):    
+def privateMessage(message,clientTarget):    
     
     for y in range(len(aliases)):   
        
         print("------------") 
         print(aliases[y])
-        print(clientTarget)  
-        aliasesStrip = aliases[y].strip()
+        print(clientTarget) 
+         
+        aliasSt = str(aliases[y])
+        aliasesStrip = aliasSt.strip()
+        
+        print(aliasesStrip)  
+        
         clientTargetStrip = clientTarget.strip()
+        
         print(aliasesStrip == clientTargetStrip)
-        if aliases[y] == clientTarget:         
-            print("OALALLA")   
+       
+        if aliasesStrip == clientTargetStrip:         
+            print("()())())")   
+            x= 0
             for client in clients: 
+                print("X: ", x)
+                print("&&&&&&&&&&&&&&&")
                 if x == y:  #Arrumar aqui
                     print(x)
                     print("~~~~~~~~~~")
                     print(y)      
                     client.send(message)
-                else:
-                    x+= 1
+                
+                x+= 1
            
    
 
@@ -54,10 +64,11 @@ def handle_client(client):
             segmentMessage = message.decode('utf-8')
             segmentMessage = segmentMessage.split("/")
             print(segmentMessage[1])
-            if(segmentMessage[1] ==  "send"):               
-               privateMessage(segmentMessage[2])
+            if(segmentMessage[1] == "send"):               
+               privateMessage(message,segmentMessage[2])
             #--------------------------
-            broadcast(message) #Aqui é feito o envio de broadcast
+            if(segmentMessage[1] == "all"):  #Mudar aqui para usar o all
+                broadcast(message) #Aqui é feito o envio de broadcast
         except:
             index = clients.index(client)
             clients.remove(client)
