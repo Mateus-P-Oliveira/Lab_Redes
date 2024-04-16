@@ -18,7 +18,7 @@ def receive():
 t = threading.Thread(target=receive)
 t.start()
 
-client.sendto(f"SIGNUP_TAG:{name}".encode(),("127.0.0.1",9999))
+client.sendto(f"SIGNUP_TAG:{name}".encode(),("127.0.0.1",9999)) #Isso cadastra o usuario no servidor
 
 while True:
     message = input("")
