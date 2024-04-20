@@ -1,11 +1,10 @@
-# TCP
 import threading
 import socket
+import os
 
 alias = input("Choose an alias >>> ")
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(("127.0.0.1", 59000))
-
 
 def client_receive():
     while True:
@@ -20,12 +19,21 @@ def client_receive():
             client.close()
             break
 
-
 def client_send():
     while True:
-        message = f'{alias}: {input("")}'
+        message = input("")
+        if message.startswith("/file"):
+            filename = message.split("/")[3] #Adaptar aqui para os padrões de envio que estou usando 
+            print("OoooooooO")
+            print(filename)
+            if os.path.isfile(filename):
+                with open(filename, 'r') as f:
+                    lines = f.read()
+                    print(lines)
+                message = f"{alias}: /file {filename}\n{lines}"
+        else:
+            message = f'{alias}: {message}'
         client.send(message.encode("utf-8"))
-
 
 receive_thread = threading.Thread(target=client_receive)
 receive_thread.start()

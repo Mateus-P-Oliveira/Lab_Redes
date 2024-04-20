@@ -1,7 +1,6 @@
-# TCP
-
 import threading
 import socket
+import os
 
 host = "127.0.0.1"
 port = 59000
@@ -11,64 +10,47 @@ server.listen()
 clients = []
 aliases = []
 
-
 def broadcast(message):
     for client in clients:       
         client.send(message)
 
-
-#Isso ira procurar na lista de endereços o cliente com mesmo ID e ira mandar para ele a mensagem 
 def privateMessage(message,clientTarget):    
-    
     for y in range(len(aliases)):   
-       
-        print("------------") 
-        print(aliases[y])
-        print(clientTarget) 
-         
         aliasSt = str(aliases[y])
         aliasesStrip = aliasSt.strip()
-        
-        print(aliasesStrip)  
-        
         clientTargetStrip = clientTarget.strip()
-        
-        print(aliasesStrip == clientTargetStrip)
-       
         if aliasesStrip == clientTargetStrip:         
-            print("()())())")   
             x= 0
             for client in clients: 
-                print("X: ", x)
-                print("&&&&&&&&&&&&&&&")
-                if x == y:  #Arrumar aqui
-                    print(x)
-                    print("~~~~~~~~~~")
-                    print(y)      
+                if x == y:  
                     client.send(message)
-                
                 x+= 1
-           
-   
-
-# Function to handle clients'connections
-
-
 
 def handle_client(client):
     while True:
         try:
             message = client.recv(1024)
-            print(message)
-            # Segmenta a mensagem---------------------
             segmentMessage = message.decode('utf-8')
             segmentMessage = segmentMessage.split("/")
-            print(segmentMessage[1])
-            if(segmentMessage[1] == "send"):               
-               privateMessage(message,segmentMessage[2])
-            #--------------------------
-            if(segmentMessage[1] == "all"):  #Mudar aqui para usar o all
-                broadcast(message) #Aqui é feito o envio de broadcast
+            if(segmentMessage[1] == "send"):              
+               privateMessage(message,segmentMessage[2])               
+            if(segmentMessage[1] == "all"):  
+                broadcast(message)
+            if(segmentMessage[1] == "file"):
+                if(segmentMessage[2] == "send"):
+                    filename = segmentMessage[3]
+                    if os.path.isfile(filename):
+                        with open(filename, 'r') as f:
+                            lines = f.read()
+                        message = f"{segmentMessage[0]}: /file {filename}\n{lines}".encode('utf-8')
+                        privateMessage(message,segmentMessage[4])
+                if(segmentMessage[2] == "all"):
+                    filename = segmentMessage[3]
+                    if os.path.isfile(filename):
+                        with open(filename, 'r') as f:
+                            lines = f.read()
+                        message = f"{segmentMessage[0]}: /file {filename}\n{lines}".encode('utf-8')
+                        broadcast(message)
         except:
             index = clients.index(client)
             clients.remove(client)
@@ -77,10 +59,6 @@ def handle_client(client):
             broadcast(f"{alias} has left the chat room!".encode("utf-8"))
             aliases.remove(alias)
             break
-
-
-# Main function to receive the clients connection
-
 
 def receive():
     while True:
@@ -91,16 +69,11 @@ def receive():
         alias = client.recv(1024)
         aliases.append(alias)
         clients.append(client)
-        #--Dicionario com alias e seu respectivo client
-        
-        
-        #-------------------------------------------------
         print(f"The alias of this client is {alias}".encode("utf-8"))
         broadcast(f"{alias} has connected to the chat room".encode("utf-8"))
         client.send("you are now connected!".encode("utf-8"))
         thread = threading.Thread(target=handle_client, args=(client,))
         thread.start()
-
 
 if __name__ == "__main__":
     receive()
