@@ -8,7 +8,7 @@ aliases = []
 #Recebe o Socket
 server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 server.bind(("127.0.0.1",9999))
-#Função de receber, 
+
 def receive():
     while True:
         try:
@@ -16,9 +16,7 @@ def receive():
             messages.put((message,addr)) #Coloca as mensagens na fila 
         except:
             pass
-        
-        
-        
+
 def broadcast():
     while True:
         while not messages.empty(): #Enquanto nao esvaziar a fila 
@@ -35,25 +33,31 @@ def broadcast():
             
             if addr not in clients: #Caso o endereço nao exista adiciona o usuario no servidor 
                 clients.append(addr)
-            for client in clients: #Percorre a lista de clientes para enviar a mensagem
-                try:
-                    #if para os send
-                    #else essesaqui abaixo
-                    if message.decode().startswith("SIGNUP_TAG:"): #Se começa com SIGNUP_TAG a mensagem de usuario joined é enviada
-                        name = message.decode()[message.decode().index(":")+1:]
-                        server.sendto(f"{name} joined!".encode(), client)
-                        aliases.append(name)
-                    elif segmentMessage[1] == "send":  #Mudar aqui pq a mensagem inclui o nome do usuario no padrão nome: /send 
-                       print("Entrei")
-                                              
-                       # segmentMessage = message.decode.split("/")  
-                       # print(segmentMessage[2])
-                    else: #Caso não envia para todo mundo
-                        print(aliases)                      
-                        server.sendto(message,client)
-                except:
-                   
-                    clients.remove(client)
+                
+                segmentMessage = segmentMessage.split(":")
+                
+                aliases.append(segmentMessage[1])
+                
+            if segmentMessage[1] == "send":  #Mudar aqui pq a mensagem inclui o nome do usuario no padrão nome: /send 
+                target = segmentMessage[2]
+                print("Ola")
+                print(target)
+                print("________________________")
+                print(aliases)
+                if target in aliases:
+                    print("errrrr")
+                    targetIndex = aliases.index(target)
+                    server.sendto(message, clients[targetIndex])
+            else: #Caso não envia para todo mundo
+                for client in clients: #Percorre a lista de clientes para enviar a mensagem
+                    try:
+                        if message.decode().startswith("SIGNUP_TAG:"): #Se começa com SIGNUP_TAG a mensagem de usuario joined é enviada
+                            name = message.decode()[message.decode().index(":")+1:]
+                            server.sendto(f"{name} joined!".encode(), client)
+                        else:                      
+                            server.sendto(message,client)
+                    except:
+                        clients.remove(client)
                     
 t1 = threading.Thread(target=receive)
 t2 = threading.Thread(target=broadcast)  
