@@ -42,38 +42,38 @@ def handle_client(client):
             if(segmentMessage[1] == "file"):
               #  print("sjdfnsdjfhdjf")
                 if(segmentMessage[2] == "send"):
-                    print("---------------------------")
-                    print(segmentMessage)
+                    #print("---------------------------")
+                    #print(segmentMessage)
                     
-                    print("------------------------------")
+                    #print("------------------------------")
                     filename = segmentMessage[4]
-                    print(filename)
+                    #print(filename)
                     #if os.path.isfile(filename):
                      #   with open(filename, 'r') as f:
                       #      lines = f.read()
                     message = f"/file {filename}\n".encode('utf-8')
-                    print("****************************")
-                    print(message)
-                    print(segmentMessage[3])
-                    print("GSGSGSGSGSGGS")
+                    #print("****************************")
+                    #print(message)
+                    #print(segmentMessage[3])
+                    #print("GSGSGSGSGSGGS")
                     
                     privateMessage(message,segmentMessage[3])
                 if(segmentMessage[2] == "all"):
-                    print("IIOSIIS" )
+                    #print("IIOSIIS" )
                     filename = segmentMessage[3]
-                    print(filename)
-                    print("OIOIOI")
-                    print(segmentMessage)
+                    #print(filename)
+                    #print("OIOIOI")
+                   # print(segmentMessage)
                     #if os.path.isfile(filename):
                        # with open(filename, 'r') as f:
                         #   print("Aqui começa a linha")
                          #   lines = f.read()
                         #    print("Aqui termina a linha")
-                    print("sdsdsdsdsdsdsdsdsdadsdasdasda")    
+                    #print("sdsdsdsdsdsdsdsdsdadsdasdasda")    
                     message = f"/file {filename}\n".encode('utf-8')
                     
-                    print(message)
-                    print("88888888888888888888888888")
+                    #print(message)
+                    #print("88888888888888888888888888")
                     broadcast(message)
         except:
             index = clients.index(client)

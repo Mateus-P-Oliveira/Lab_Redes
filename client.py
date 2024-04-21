@@ -14,13 +14,13 @@ def client_receive():
             if message == "alias?":
                 client.send(alias.encode("utf-8"))
             elif message.startswith("/file"):
-                print("OOooooOOOO")
-                print("_-------------------_")
-                print(message)
+                print("Recebi arquivo")
+                #print("_-------------------_")
+                #print(message)
                 filename = message.split()[1]
-                print(filename)
+                #print(filename)
                 content = message.split("\n", 1)[1]
-                print(content)
+                #print(content)
                 with open(filename, 'w') as f:
                     f.write(content)
                 print(f"Received file {filename}")
@@ -39,8 +39,8 @@ def client_send():
             print(segmentMessage)
             if(segmentMessage[2] == "all"):
                 filename = message.split("/")[3] #Adaptar aqui para os padrões de envio que estou usando 
-                print("OoooooooO")
-                print(filename)
+                #print("")
+                #print(filename)
                 if os.path.isfile(filename): #Arquivo é enviado aberto
                     with open(filename, 'r') as f:
                         lines = f.read()
@@ -49,7 +49,7 @@ def client_send():
                     #print("Segmentei a mensagem")
             if(segmentMessage[2] == "send"):
                 filename = message.split("/")[4] #Adaptar aqui para os padrões de envio que estou usando 
-                print("OoooooooO")
+                #print("OoooooooO")
                 print(filename)
                 if os.path.isfile(filename): #Arquivo é enviado aberto
                     with open(filename, 'r') as f:
