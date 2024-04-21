@@ -10,12 +10,17 @@ def client_receive():
     while True:
         try:
             message = client.recv(1024).decode("utf-8")
+            
             if message == "alias?":
                 client.send(alias.encode("utf-8"))
             elif message.startswith("/file"):
                 print("OOooooOOOO")
-                filename = message.split()[3]
-                content = message.split("\\n", 1)[3]
+                print("_-------------------_")
+                print(message)
+                filename = message.split()[1]
+                print(filename)
+                content = message.split("\n", 1)[1]
+                print(content)
                 with open(filename, 'w') as f:
                     f.write(content)
                 print(f"Received file {filename}")
@@ -38,6 +43,7 @@ def client_send():
                     lines = f.read()
                     print(lines)
                 message = f"{alias}: {message}\n{lines}"
+                #print("Segmentei a mensagem")
         else:
             message = f'{alias}: {message}'
         client.send(message.encode("utf-8"))
