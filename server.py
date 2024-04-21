@@ -31,12 +31,16 @@ def handle_client(client):
         try:
             message = client.recv(1024)
             segmentMessage = message.decode('utf-8')
+            print(segmentMessage)
             segmentMessage = segmentMessage.split("/")
+            print("shhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
+            print(segmentMessage[1])
             if(segmentMessage[1] == "send"):              
                privateMessage(message,segmentMessage[2])               
             if(segmentMessage[1] == "all"):  
                 broadcast(message)
             if(segmentMessage[1] == "file"):
+                print("sjdfnsdjfhdjf")
                 if(segmentMessage[2] == "send"):
                     filename = segmentMessage[3]
                     if os.path.isfile(filename):
@@ -45,11 +49,15 @@ def handle_client(client):
                         message = f"{segmentMessage[0]}: /file {filename}\n{lines}".encode('utf-8')
                         privateMessage(message,segmentMessage[4])
                 if(segmentMessage[2] == "all"):
+                    print("IIOSIIS" )
                     filename = segmentMessage[3]
+                    print(filename)
                     if os.path.isfile(filename):
                         with open(filename, 'r') as f:
                             lines = f.read()
+                        print("sdsdsdsdsdsdsdsdsdadsdasdasda")    
                         message = f"{segmentMessage[0]}: /file {filename}\n{lines}".encode('utf-8')
+                        print("88888888888888888888888888")
                         broadcast(message)
         except:
             index = clients.index(client)

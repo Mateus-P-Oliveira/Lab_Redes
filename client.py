@@ -12,6 +12,13 @@ def client_receive():
             message = client.recv(1024).decode("utf-8")
             if message == "alias?":
                 client.send(alias.encode("utf-8"))
+            elif message.startswith("/file"):
+                print("OOooooOOOO")
+                filename = message.split()[3]
+                content = message.split("\\n", 1)[3]
+                with open(filename, 'w') as f:
+                    f.write(content)
+                print(f"Received file {filename}")
             else:
                 print(message)
         except:
@@ -30,7 +37,7 @@ def client_send():
                 with open(filename, 'r') as f:
                     lines = f.read()
                     print(lines)
-                message = f"{alias}: /file {filename}\n{lines}"
+                message = f"{alias}: {message}\n{lines}"
         else:
             message = f'{alias}: {message}'
         client.send(message.encode("utf-8"))
