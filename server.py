@@ -52,6 +52,7 @@ def handle_client(client):
                     print("IIOSIIS" )
                     filename = segmentMessage[3]
                     print(filename)
+                    print("OIOIOI")
                     if os.path.isfile(filename):
                         with open(filename, 'r') as f:
                             lines = f.read()

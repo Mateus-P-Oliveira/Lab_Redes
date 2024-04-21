@@ -33,7 +33,7 @@ def client_send():
             filename = message.split("/")[3] #Adaptar aqui para os padrões de envio que estou usando 
             print("OoooooooO")
             print(filename)
-            if os.path.isfile(filename):
+            if os.path.isfile(filename): #Arquivo é enviado aberto
                 with open(filename, 'r') as f:
                     lines = f.read()
                     print(lines)
