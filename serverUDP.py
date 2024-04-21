@@ -1,6 +1,7 @@
 import socket
 import threading
 import queue
+import os
 
 messages = queue.Queue()
 clients = []
@@ -27,6 +28,7 @@ def broadcast():
                 segmentMessage = segmentMessage.split("/")
                 print("____________")
                 print(segmentMessage)  # print the whole list
+                print("Adasdsd")
                 print(segmentMessage[1]) 
             else:
                 print("No '/' in the message")
@@ -48,6 +50,25 @@ def broadcast():
                     print("errrrr")
                     targetIndex = aliases.index(target)
                     server.sendto(message, clients[targetIndex])
+            elif segmentMessage[1].startswith("file"): #Se a mensagem começa com /file
+                if(segmentMessage[2] == "all"):
+                    
+                    filename = segmentMessage[3]#[1]
+                    #content = '\\n'.join(segmentMessage[2].split('\\n')[1:])
+                    #with open(filename, 'w') as f:
+                        #f.write(content)
+                    print(f"Received file {filename}")
+                    message = f"/file/{filename}"
+                    #print("*********************")
+                    for client in clients: #Percorre a lista de clientes para enviar a mensagem
+                        print("*********************")
+                        try:                            
+                                print("OSOSOSOSOSOSOOSOSO")
+                                print(message)                     
+                                server.sendto(message.encode(),client)
+                        except:
+                                clients.remove(client)
+                
             else: #Caso não envia para todo mundo
                 for client in clients: #Percorre a lista de clientes para enviar a mensagem
                     try:
