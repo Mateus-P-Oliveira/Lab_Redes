@@ -35,15 +35,28 @@ def client_send():
     while True:
         message = input("")
         if message.startswith("/file"):
-            filename = message.split("/")[3] #Adaptar aqui para os padrões de envio que estou usando 
-            print("OoooooooO")
-            print(filename)
-            if os.path.isfile(filename): #Arquivo é enviado aberto
-                with open(filename, 'r') as f:
-                    lines = f.read()
-                    print(lines)
-                message = f"{alias}: {message}\n{lines}"
-                #print("Segmentei a mensagem")
+            segmentMessage = message.split('/')
+            print(segmentMessage)
+            if(segmentMessage[2] == "all"):
+                filename = message.split("/")[3] #Adaptar aqui para os padrões de envio que estou usando 
+                print("OoooooooO")
+                print(filename)
+                if os.path.isfile(filename): #Arquivo é enviado aberto
+                    with open(filename, 'r') as f:
+                        lines = f.read()
+                        print(lines)
+                    message = f"{alias}: {message}\n{lines}"
+                    #print("Segmentei a mensagem")
+            if(segmentMessage[2] == "send"):
+                filename = message.split("/")[4] #Adaptar aqui para os padrões de envio que estou usando 
+                print("OoooooooO")
+                print(filename)
+                if os.path.isfile(filename): #Arquivo é enviado aberto
+                    with open(filename, 'r') as f:
+                        lines = f.read()
+                        print(lines)
+                    message = f"{alias}: {message}\n{lines}"
+                    #print("Segmentei a mensagem")        
         else:
             message = f'{alias}: {message}'
         client.send(message.encode("utf-8"))
