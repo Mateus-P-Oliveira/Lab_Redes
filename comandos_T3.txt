@@ -1,0 +1,2 @@
+Abre o servidor iperf3 -s -p 7575
+Abre o Client iperf3 -c 127.0.0.1 -p 7575
