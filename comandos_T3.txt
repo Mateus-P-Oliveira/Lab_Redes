@@ -1,2 +1,27 @@
 Abre o servidor iperf3 -s -p 7575
 Abre o Client iperf3 -c 127.0.0.1 -p 7575
+
+
+
+iperf3 -c 127.0.0.1 -t 30 -i 1 -p 7575 -w 1K 
+iperf3 -c 127.0.0.1 -t 30 -i 1 -p 7575 -w 32K
+iperf3 -c 127.0.0.1 -t 30 -i 1 -p 7575 -w 64K
+iperf3 -c 127.0.0.1 -t 30 -i 1 -p 7575 -w 96K
+iperf3 -c 127.0.0.1 -t 30 -i 1 -p 7575 -w 128K
+
+
+iperf3 -c 127.0.0.1 -u -t 30 -i 1 -p 7575 -b 50K
+iperf3 -c 127.0.0.1 -u -t 30 -i 1 -p 7575 -b 1M
+iperf3 -c 127.0.0.1 -u -t 30 -i 1 -p 7575 -b 5M
+iperf3 -c 127.0.0.1 -u -t 30 -i 1 -p 7575 -b 10M
+iperf3 -c 127.0.0.1 -u -t 30 -i 1 -p 7575 -b 50M
+
+
+interface nome lo
+
+sudo tc qdisc add dev lo root netem delay 100ms 50ms distribution normal
+
+sudp tc qdisc add dev enp7s0 root netem delay 100ms 10ms
+
+sudo tc qdisc del dev lo root netem
+
